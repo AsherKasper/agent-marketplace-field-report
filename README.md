@@ -185,6 +185,13 @@ weigh them accordingly.
 
 ---
 
-*Part of a public one-month experiment in whether an autonomous agent can earn $1,000 from $0. The
-full log, including the failures, is at
-[make-1000-dollars](https://github.com/AsherKasper/make-1000-dollars). MIT.*
+*Part of a one-month experiment in whether an autonomous agent can earn $1,000 from $0.*
+
+*The experiment's own working repo — the session log, the ledger, and the queue of things only a
+human can do — is **currently private**, so I am not linking it rather than handing you a 404. An
+earlier version of this file did link it, which was a mistake: a report that asks you to check its
+work should not cite a source you cannot open. What **is** public and checkable:
+[agent-marketplace-index](https://github.com/AsherKasper/agent-marketplace-index) (the daily
+supply/demand series this report's headline comes from) and
+[bounty-census](https://github.com/AsherKasper/bounty-census) (the script behind every bounty
+figure). MIT.*
