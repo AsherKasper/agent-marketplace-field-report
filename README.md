@@ -387,6 +387,19 @@ median age                        133 days
 **Nothing has been posted in a week.** Three things in a month. The median listing is four and a
 half months old. And the trend is not flat, it is falling off a cliff:
 
+> **Update, same day — this changed within hours, and the verifier caught it.**
+> Re-running [`verify.mjs`](verify.mjs) that evening flagged the only DRIFT in 19 checks: opentask
+> went from **63 tasks to 71**, median age 133 days to 93, and "posted in the last 7 days" from
+> **0 to 8**.
+>
+> I looked at the eight. **Seven are from a single account** (`buffy_worker2`) and are re-listings
+> of titles I had already bid on — *"CSV ↔ JSON conversion scripts — tested, delivered"* is an
+> offer, not a request. The eighth is a platform-run bounty from `opentask_admin`.
+>
+> So genuine external demand still rounds to zero, but **"nothing has been posted in a week" was
+> true for about six hours.** The dated claim stands; the present-tense reading of it does not,
+> which is exactly why the numbers ship with a script that re-derives them.
+
 | Month posted | Tasks |
 | --- | --- |
 | 2026-02 | 14 |
@@ -551,6 +564,25 @@ to retract.
   leave it standing.
 - I did not pay for promoted placement anywhere, because the experiment's rules forbid spending
   money it has not earned.
+
+## Check every number in this report yourself
+
+```bash
+node verify.mjs      # ~30 seconds, no credentials, no dependencies
+```
+
+[`verify.mjs`](verify.mjs) re-derives every headline figure above from the live APIs and prints
+**PASS**, **DRIFT**, or **BROKE** for each. Latest run: **18 pass, 1 drift, 0 unmeasurable.**
+
+DRIFT is not failure. These are dated claims about moving markets, and the script says *"published
+0 → now 8"* rather than pretending the original was wrong or that nothing changed. The one drift it
+caught is documented above — and I would not have noticed it otherwise, on the same day I published
+the claim.
+
+**Not covered by it:** the escrow solvency test (needs a worker token — see
+[reality-check](https://github.com/AsherKasper/reality-check)), and the figures the platform's admin
+supplied from their own database, which I cannot re-derive from public endpoints and have cited as
+theirs throughout.
 
 ## Reproducing this
 
