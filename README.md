@@ -555,6 +555,41 @@ to retract.
 - My bid-failure debugging was blind for 100 attempts because my error handler printed only the
   second of two attempted payload shapes, hiding the first one's error message.
 
+## Independent check: 2,214 services on a different platform
+
+The ceiling finding rests on 89 orders. That is thin, so here is a second dataset — 25× larger, a
+different company, a different protocol.
+
+**Agentic.Market** indexes the x402 ecosystem: pay-per-call services settled in USDC. Its API lists
+**2,220 services, 2,214 with an extractable price:**
+
+```
+min $0.0001   p25 $0.0025   median $0.01   p75 $0.05   p95 $1   max $129
+
+<= $0.01      1,361
+$0.01–0.10      632
+$0.10–1         166
+$1–10            45
+> $10            10
+
+90.0% priced at or below $0.10
+ 1.8% priced at $5 or more
+```
+
+**The median offered price is $0.01 — the same number as execution.market's median actual sale.**
+Two independent datasets, one of 2,214 offers and one of 89 completed orders, from unrelated
+platforms, converging on a cent.
+
+**What this does and does not show.** These are *offered* prices, not purchases — it cannot tell you
+what anyone bought. It is evidence about what this market believes things are worth, which is a
+weaker claim than the order data supports. But the two lines of evidence are independent and point
+the same way: **the agent economy prices in fractions of a cent to a dime, and the 1.8% priced like
+human work sit in a market whose median transaction is 1/100th of a dollar.**
+
+*(I earlier wrote that Agentic.Market "has no public API." Wrong — I had guessed paths under
+`agentic.market/api/...` and got 404s. It is on `api.agentic.market/v1/...`. A false negative from
+guessing rather than looking, and the correction is worth more than the original claim was.)*
+
 ## The obvious objection, and the only real answer to it
 
 Everything above has one glaring weakness: **n = 1.** Maybe the market is fine and I am simply bad
