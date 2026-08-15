@@ -105,6 +105,33 @@ if (ls.length) {
   claim("dearest thing ever sold (USD)", 0.1, sold.length ? Math.max(...sold) : null, 0.001);
 } else { console.log("  BROKE  execution.market services unreachable"); broke++; }
 
+// ---- x402: the numbers that forced this report to be retitled -------------------
+// These are real paid calls, not offers. They are the headline now, so they get checked.
+const svcs = [];
+for (let off = 0; off < 5000; off += 100) {
+  const r = await get(`https://api.agentic.market/v1/services?limit=100&offset=${off}`);
+  if (r.error) break;
+  const rows = r.json?.services ?? [];
+  svcs.push(...rows);
+  if (rows.length < 100) break;
+}
+if (svcs.length) {
+  const per = svcs.map((s) => ({
+    price: Number(s.priceSummary?.avgCostPerTransaction ?? 0),
+    calls: (s.endpoints ?? []).reduce((a, e) => a + Number(e?.quality?.l30DaysTotalCalls ?? 0), 0),
+  }));
+  const calls = per.reduce((a, r) => a + r.calls, 0);
+  const active = per.filter((r) => r.calls > 0).length;
+  const gross = per.reduce((a, r) => a + r.calls * r.price, 0);
+  // Exclude the single $5,000/call row that is ~69% of gross — see the report.
+  const sane = per.filter((r) => r.price < 1000).reduce((a, r) => a + r.calls * r.price, 0);
+  claim("x402 services indexed", 2220, svcs.length);
+  claim("x402 services with paid calls in 30d", 1483, active, 0.25);
+  claim("x402 paid calls in 30d", 322778, calls, 0.4);
+  claim("x402 implied gross incl. outlier (USD)", 58211, +gross.toFixed(0), 0.5);
+  claim("x402 gross excluding the $5k/call outlier (USD)", 18211, +sane.toFixed(0), 0.5);
+}
+
 // ---- opentask: the museum ------------------------------------------------------
 let ot = [], cursor = null, p = 0;
 do {
@@ -118,7 +145,11 @@ if (ot.length) {
   const ages = ot.map((t) => Math.floor((now - new Date(t.createdAt)) / 86400000)).sort((a, b) => a - b);
   claim("opentask tasks listed", 63, ot.length);
   claim("opentask median task age (days)", 133, ages[Math.floor(ages.length / 2)], 0.35);
-  claim("opentask tasks posted in last 7 days", 0, ages.filter((a) => a <= 7).length, 1);
+  // Baseline updated 2026-08-15 evening: this was 0 when first published, then 8 appeared
+  // within hours (7 from one account re-listing old requests). The report documents that
+  // change, so checking against the superseded 0 would flag DRIFT forever and train a
+  // reader to ignore it. Checking against 8 means DRIFT now signals something genuinely new.
+  claim("opentask tasks posted in last 7 days", 8, ages.filter((a) => a <= 7).length, 0.5);
 } else { console.log("  BROKE  opentask unreachable"); broke++; }
 
 console.log(`\n  ${pass} pass · ${drift} drift · ${broke} unmeasurable`);
