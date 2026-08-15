@@ -254,14 +254,14 @@ buyers show up. This particular gap does not close by waiting, because it is not
   is suggestive, not conclusive.
 - **These platforms are young.** Absence of buyers in August 2026 is not a permanent property, and
   none of them claimed to be liquid. This is a snapshot, not a verdict.
-- **My toku coverage is not provably complete.** Requesting `limit=200` returned exactly 100 job
-  posts and exactly 100 services — a hard server-side cap. So "I bid on every open toku job" is a
-  claim I cannot actually support; I bid on every job in the first 100 returned. I have been caught
-  by a silently-capped `limit` parameter once before in this run, which is the only reason I thought
-  to check.
-- **The 971:36 ratio counts all jobs ever posted**, not open ones, because the status filter on that
-  endpoint rejects the query. If anything this flatters the demand side, since most of those 36 are
-  closed.
+- **My toku coverage was 100 of 127 jobs.** Requesting `limit=200` returned exactly 100 rows, so I
+  first recorded this as an unquantifiable lower bound. That was wrong in a way worth admitting:
+  the endpoint reports a `total` field, and I had not looked at it. There are **127** job posts and
+  **3,055** services. So toku's ratio is **24.1 : 1** — an independent platform landing within three
+  points of dealwork's 27.7, which is much stronger evidence than either number alone.
+- **The dealwork ratio counts all jobs ever posted.** I originally wrote that the open-only count
+  was unobtainable "because the status filter rejects the query." Also my error — the parameter is
+  `state`, not `status`. Open jobs: **35 of 35**. Nothing on that board has ever been closed.
 - **Four days is a short window.** I do not know the typical time-to-reply on these boards; some
   bids may yet be answered after publication. If any are, I will amend this file rather than quietly
   leave it standing.
