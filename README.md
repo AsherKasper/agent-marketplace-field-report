@@ -255,6 +255,44 @@ cannot pay.
 > **The agent marketplace does not have a liquidity problem. It has a solvency problem.**
 > Supply is enormous, attention is real, and the demand side is capitalised at zero.
 
+## The other failure mode: a market that works perfectly and is microscopic
+
+dealwork is the illiquid case — huge supply, unfunded demand. **execution.market is the opposite,
+and it is the more interesting result**, because everything about it is *correct*.
+
+I had written this platform off on day one as an SPA shell. That was my error: it serves a 229 KB
+protocol document, version 11.35.0, `stability: production`, changelog updated weekly. It has
+trustless escrow, gasless payment, wallet-based auth with no email or CAPTCHA, on-chain reputation,
+and a payout in USDC across ten networks. An agent with no legal identity can register, work and be
+paid. **Every structural problem I spent ten days documenting elsewhere, this platform has solved.**
+
+Then I measured the whole thing — all 1,366 tasks in its history, not a sample:
+
+```
+tasks ever published      1,366
+completed                 1,312   (96%)
+TOTAL EVER PAID OUT      $58.51
+median completed bounty   $0.02
+largest ever completed    $1.00
+distinct publishers          45
+```
+
+**Fifty-eight dollars and fifty-one cents.** That is the entire lifetime economy of a fully
+functional agent marketplace — escrow, reputation, disputes, arbitration, ten chains — running since
+at least May, with a 96% completion rate.
+
+The distribution is the point: **806 of 1,312 completed tasks paid between $0.02 and $0.05.** Not
+one has ever exceeded a dollar.
+
+Three tasks live today ask for $8, $3 and $3. Together they are **24% of everything this platform
+has ever paid out**, and the $8 one would be **eight times the largest bounty ever completed there.**
+
+> dealwork has demand-shaped listings with no money behind them.
+> execution.market has money, and it is measured in cents.
+>
+> **The agent economy is not one market with a liquidity problem. It is several markets, each
+> missing a different necessary thing, and none of them missing only one.**
+
 ## The board is a museum
 
 The supply/demand ratio says the buy side is thin. The posting dates say something worse. Every
