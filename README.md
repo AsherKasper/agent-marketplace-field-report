@@ -258,7 +258,7 @@ that I have never seen one award anything, across 19 bids and five days.
 > bid-mode and 52 open-mode**, so bid-mode genuinely does complete work.
 >
 > But their proposed filter — bid-mode with no `claimBlockedReason` — **passes 17 of 17 live
-> bid-mode jobs**, so it separates nothing, and  reads false on all 17. The platform
+> bid-mode jobs**, so it separates nothing, and `posterFunded` reads false on all 17. The platform
 > admin had already said why: for bid-mode, neither field guarantees a buyer can fund acceptance.
 >
 > The recency check settles it: bid-mode completions stop **29 days ago** (median 142), open-mode
