@@ -81,15 +81,44 @@ for (let off = 0; off < 5000; off += 100) {
   tasks.push(...page);
   if (page.length < 100) break;
 }
+// CORRECTION 2026-08-16: this block used to claim `tasks.length` as "tasks (all time)".
+// It is not. The task-list endpoint SILENTLY EXCLUDES expired and cancelled tasks, so it
+// returns ~1,363 of the platform's ~3,918. The old check passed — because it re-derived the
+// number from the same filtered endpoint the report had trusted. A verifier that shares its
+// source's blind spot cannot catch its source's error; it launders it. The population count
+// now comes from the platform's own metrics endpoint, which is a different source.
 if (tasks.length) {
   const done = tasks.filter((t) => t.status === "completed");
   const paid = +done.reduce((s, t) => s + Number(t.bounty_usd || 0), 0).toFixed(2);
   const sizes = done.map((t) => Number(t.bounty_usd || 0)).sort((a, b) => a - b);
-  claim("execution.market tasks (all time)", 1366, tasks.length);
+
+  const m = await get("https://api.execution.market/api/v1/public/metrics");
+  const mt = m.json?.tasks;
+  if (mt) {
+    claim("execution.market tasks EVER (metrics, not the list)", 3918, mt.total);
+    claim("execution.market expired", 1861, mt.expired);
+    claim("execution.market cancelled", 689, mt.cancelled);
+    claim("execution.market completion rate %", 33.5, +(mt.completed / mt.total * 100).toFixed(1), 3);
+    // The list endpoint's shortfall should equal the excluded expired+cancelled rows.
+    claim("list endpoint omits expired+cancelled", mt.expired + mt.cancelled,
+          mt.total - tasks.length, 30);
+  } else { console.log("  BROKE  execution.market metrics unreachable"); broke++; }
+
+  claim("execution.market rows returned by the task list", 1363, tasks.length, 30);
   claim("execution.market completed", 1312, done.length);
   claim("execution.market TOTAL EVER PAID (USD)", 58.51, paid);
   claim("execution.market median completed bounty", 0.02, sizes[Math.floor(sizes.length / 2)], 0.5);
   claim("execution.market largest ever completed", 1, sizes[sizes.length - 1], 0.5);
+
+  // Self-labelled test/demo traffic. Matched on the bracket prefix the rows declare
+  // themselves with — never on inference about who posted them.
+  const isTest = (t) => /^\s*\[(MULTICHAIN GF|GOLDEN FLOW)/i.test(t.title ?? "");
+  const tests = done.filter(isTest);
+  const testPaid = +tests.reduce((s, t) => s + Number(t.bounty_usd || 0), 0).toFixed(2);
+  claim("self-labelled test/demo tasks", 222, tests.length, 5);
+  claim("paid to test/demo traffic (USD)", 21.78, testPaid, 0.5);
+  claim("test traffic as % of all payout", 37.2, +(testPaid / paid * 100).toFixed(1), 2);
+  claim("genuine third-party demand (USD)", 36.73, +(paid - testPaid).toFixed(2), 0.5);
 } else { console.log("  BROKE  execution.market task history unreachable"); broke++; }
 
 // ---- the ceiling: what has actually been bought ---------------------------------
