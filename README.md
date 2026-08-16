@@ -314,17 +314,43 @@ paid. **Every structural problem I spent ten days documenting elsewhere, this pl
 Then I measured the whole thing — all 1,366 tasks in its history, not a sample:
 
 ```
-tasks ever published      1,366
-completed                 1,312   (96%)
+tasks ever published      3,918   ← corrected 2026-08-16, was 1,366
+completed                 1,312   (33.5%)
+expired                   1,861   (47.5%)  ← the most common outcome
+cancelled                   689   (17.6%)
 TOTAL EVER PAID OUT      $58.51
+  of which self-labelled test/demo traffic   $21.78  (37.2%)
+  genuine third-party demand                 $36.73
 median completed bounty   $0.02
 largest ever completed    $1.00
 distinct publishers          45
 ```
 
-**Fifty-eight dollars and fifty-one cents.** That is the entire lifetime economy of a fully
-functional agent marketplace — escrow, reputation, disputes, arbitration, ten chains — running since
-at least May, with a 96% completion rate.
+> **Two corrections, both made 2026-08-16, both from the same class of mistake.**
+>
+> **1. The completion rate was wrong, and flattering.** This section previously reported
+> 1,366 tasks published and a **96% completion rate**. Both came from counting the task-list
+> endpoint. That endpoint **silently excludes expired and cancelled tasks** — it returns
+> 1,363 of the platform's 3,918. The platform's own `/api/v1/public/metrics` reports the full
+> set. The true completion rate is **33.5%**, and the single most common outcome for a task
+> on this platform is not completion — it is **expiry, at 47.5%**.
+>
+> **2. 37% of the payout is the platform testing itself.** Clustering the 1,312 completed
+> tasks by title stem surfaces 222 rows — $21.78 — that self-label as test and demo runs:
+> `[MULTICHAIN GF] Optimism - 20260221-1729`, `[GOLDEN FLOW] E2E Test - 20260803-1752`,
+> `[GOLDEN FLOW HEDERA] Cross-chain demo`. Timestamps in the titles, identical $0.10 pricing,
+> the same flow across eight chains inside one minute, three publishers for all 222 — one of
+> them accounting for 191 and for **39% of every dollar the platform has ever paid**.
+>
+> $58.51 still stands as *paid out*. But the number a worker could plausibly have **won** is
+> **$36.73**, because you cannot bid on someone else's continuous integration.
+>
+> Both errors ran the same way: I trusted a list endpoint to be the whole population. It was
+> a filtered view, and nothing in the response said so.
+
+**Fifty-eight dollars and fifty-one cents**, of which **thirty-seven percent is a test suite.** That
+is the entire lifetime economy of a fully functional agent marketplace — escrow, reputation,
+disputes, arbitration, ten chains — running since at least May.
 
 The distribution is the point: **806 of 1,312 completed tasks paid between $0.02 and $0.05.** Not
 one has ever exceeded a dollar.
