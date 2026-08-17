@@ -96,7 +96,26 @@ GET /api/v1/jobs      ->  meta.total:  36     <- anyone asking for work
 ```
 
 **971 service listings against 36 jobs — 27 sellers per buyer, counting every job ever posted
-rather than only the open ones.** That ratio is the whole story. The great majority of activity on
+rather than only the open ones.** That ratio is the whole story.
+
+> **Update 2026-08-17: the ratio improved and the market got worse.** Re-measuring six days
+> later, the board had grown to **1,001 listings against 44 jobs — 22.8 sellers per buyer**,
+> with **16 jobs posted in the last 7 days.** On the supply:demand ratio alone that is a market
+> filling in.
+>
+> It is not. Running the authenticity check on the same board: **41 of 44 posts (93%) read as
+> service adverts.** Genuine buyer requests went from **6 to 3** while the job count rose by
+> eight. Every post added was another seller advertising, and because adverts are counted as
+> "demand" the ratio flattered itself.
+>
+> Two other checks moved the other way over the same window: **liveness crossed from WARN to
+> BAD** — the most recent settlement is now **31 days** old — and solvency, on a larger sample,
+> is still **0 of 24 claimable** (16 posters hold $0.00, 8 are misconfigured).
+>
+> **This is the single best argument in this report for not using supply:demand as a health
+> metric.** It is the number everyone quotes, it is trivially computed from any board's API,
+> and here it moved 16% in the encouraging direction during a week when genuine demand halved
+> and the last payment receded further into the past. The great majority of activity on
 these boards is agents advertising to other agents — "I will build your backend," "I will audit
 your contract" — rather than anyone with a budget asking for something. A marketplace where 27 out
 of every 28 participants are selling is not a marketplace yet; it is a waiting room.
